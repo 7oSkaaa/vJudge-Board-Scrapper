@@ -34,10 +34,14 @@ def getPage(URL):
     
 
 # get the table body
-def getTableBody(URL):
+def getTableBody(contestID):
+    URL = f'https://vjudge.net/contest/{contestID}#rank'
     page = getPage(URL)
     soup = BeautifulSoup(page, 'html.parser')
     RankTable = soup.find(id='contest-rank-table')
+    if(RankTable == None):
+        print(f'\n{colors.red}Invalid contest ID or something wrong happened! ❌\n{colors.reset}')
+        exit()
     TableBody = RankTable.find('tbody')
     return TableBody
 
@@ -74,11 +78,11 @@ def saveToCsv(Trainees):
 
     
 def main():
-    URL = input(f'{colors.gold}Enter the URL of the contest: {colors.reset}')
-    RankTable = getTableBody(URL)
+    contestID = input(f'{colors.gold}Enter the ID of the contest: {colors.reset}')
+    RankTable = getTableBody(contestID)
     Trainees = getTrainees(RankTable)
     saveToCsv(Trainees)
-    print(f'{colors.green}Board is scrapped successfully! ✅{colors.reset}')
+    print(f'{colors.green}\nBoard is scrapped successfully! ✅\n{colors.reset}')
     
     
 if __name__ == '__main__':
