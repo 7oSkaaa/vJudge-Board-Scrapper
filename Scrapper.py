@@ -39,10 +39,13 @@ def getTableBody(contestID):
     page = getPage(URL)
     soup = BeautifulSoup(page, 'html.parser')
     RankTable = soup.find(id='contest-rank-table')
-    if(RankTable == None):
-        print(f'\n{colors.red}Invalid contest ID or something wrong happened! ❌\n{colors.reset}')
+    if RankTable == None:
+        print(f'\n{colors.red}Invalid contest ID or contest is private! ❌\n{colors.reset}')
         exit()
     TableBody = RankTable.find('tbody')
+    if TableBody == None:
+        print(f"\n{colors.red}Can't load Rank table ... please try again! ❌\n{colors.reset}")
+        exit()
     return TableBody
 
 
